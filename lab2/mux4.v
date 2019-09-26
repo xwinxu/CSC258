@@ -6,26 +6,26 @@ module mux(LEDR, SW);
     wire ConnectWX;
 
     mux2to1 u0(
-        .x(SW[0]),
-	.y(SW[1]),
-	.s(SW[9]),
-	.m(ConnectUV)
+        .x(SW[0]), // U
+        .y(SW[1]), // V
+        .s(SW[9]), // s0
+        .m(ConnectUV)
         );
 
 
     mux2to1 u1(
-        .x(SW[2]),
-	.y(SW[3]),
-	.s(SW[9]),
-	.m(ConnectWX)
+        .x(SW[2]), // U
+        .y(SW[3]), // V
+        .s(SW[9]), // s0
+        .m(ConnectWX)
         );
 
 
     mux2to1 u2(
-        .x(ConnectUV),
-	.y(ConnectWX),
-	.s(SW[8]),
-	.m(LEDR[0])
+        .x(ConnectUV), // W
+        .y(ConnectWX), // X
+        .s(SW[8]), // s0
+        .m(LEDR[0])
         );
 endmodule
 
@@ -36,5 +36,7 @@ module mux2to1(x, y, s, m);
     output m; //output
 
     assign m = s & y | ~s & x;
+    // OR
+    // assign m = s ? y : x;
 
 endmodule
