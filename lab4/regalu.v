@@ -114,6 +114,7 @@ module innerAlu(clock, reset_n, func, data, Out);
 	output [7:0] Out;
 
 	// register
+	// r is the B value, it is implicitly defined here
 	wire [3:0] r;
 	register r0(.in(Out),
 				.clock(clock),
