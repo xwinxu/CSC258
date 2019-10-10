@@ -116,8 +116,8 @@ module innerAlu(clock, reset_n, func, data, Out);
 	// register
 	wire [3:0] r;
 	register r0(.in(Out),
-				.clock(clock);
-				.reset_n(reset_n);
+				.clock(clock),
+				.reset_n(reset_n),
 				.out(r)
 				);
 
