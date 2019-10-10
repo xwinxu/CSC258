@@ -133,7 +133,7 @@ module innerAlu(clock, reset_n, func, data, Out);
 	// do the A+B addition
 	wire [3:0] sum;
 	wire outv;
-	addFour sum4(.X(data), .Y(r[3:0]), .C(sum), .overflow(outv))
+	addFour sum4(.X(data), .Y(r[3:0]), .C(sum), .overflow(outv));
 
 	always @(*)
 	begin
