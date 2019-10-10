@@ -93,6 +93,7 @@ force {SW[1]} 1
 force {SW[0]} 1
 
 run 40ns
+
 # LEDR = q
 # SW[9] = reset_n;
 force {SW[9]} 0 0, 1 5, 0 100, 1 105
