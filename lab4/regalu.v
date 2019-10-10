@@ -116,8 +116,8 @@ module innerAlu(clock, reset_n, func, data, Out);
 	// register
 	wire [3:0] r;
 	register r0(.in(Out),
-				.clock(clock);
-				.reset_n(reset_n);
+				.clock(clock),
+				.reset_n(reset_n),
 				.out(r)
 				);
 
@@ -133,17 +133,17 @@ module innerAlu(clock, reset_n, func, data, Out);
 	// do the A+B addition
 	wire [3:0] sum;
 	wire outv;
-	addFour sum4(.X(data), .Y(r[3:0]), .C(sum), .overflow(outv))
+	addFour sum4(.X(data), .Y(r[3:0]), .C(sum), .overflow(outv));
 
 	always @(*)
 	begin
 		case (func[2:0])
 			//A + 1
-			3'b000: Out = {3'b000, addA2, addA1};
+			3'b000: Out = {3'b000, o1, w1};
 			//A + B (Using fourBitAdder)
-			3'b001: Out = {3'b000, ab2, ab1};
+			3'b001: Out = {3'b000, o2, w2};
 			//A + B (Using verilog arithmetic)
-			3'b010: Out = {3'b000, abvo, abv};
+			3'b010: Out = {3'b000, outv, sum};
 			//A XOR B in lower 4 bits, A OR B in higher 4
 			3'b011: Out = {data | r[3:0], data ^ r[3:0]};
 			//A and B reduction OR
