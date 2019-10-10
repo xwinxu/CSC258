@@ -135,29 +135,31 @@ module innerAlu(clock, reset_n, func, data, Out);
 	wire outv;
 	addFour sum4(.X(data), .Y(r[3:0]), .C(sum), .overflow(outv));
 
+	reg [7:0] out;
 	always @(*)
 	begin
 		case (func[2:0])
 			//A + 1
-			3'b000: Out = {3'b000, o1, w1};
+			3'b000: out = {4'b0000, o1, w1};
 			//A + B (Using fourBitAdder)
-			3'b001: Out = {3'b000, o2, w2};
+			3'b001: out = {4'b0000, o2, w2};
 			//A + B (Using verilog arithmetic)
-			3'b010: Out = {3'b000, outv, sum};
+			3'b010: out = {4'b0000, outv, sum};
 			//A XOR B in lower 4 bits, A OR B in higher 4
-			3'b011: Out = {data | r[3:0], data ^ r[3:0]};
+			3'b011: out = {data | r[3:0], data ^ r[3:0]};
 			//A and B reduction OR
-			3'b100: Out = {7'b0000000, |(data|r[3:0])};
+			3'b100: out = {7'b0000000, |(data|r[3:0])};
 			//Left shift B by A bits
-			3'b101: Out = (r[3:0] << data);
+			3'b101: out = (r[3:0] << data);
 			//Right (logical) shift B by A bits
-			3'b110: Out = (r[3:0] >> data);
+			3'b110: out = (r[3:0] >> data);
 			//A X B using verilog * operator
-			3'b111: Out = data * r[3:0];
+			3'b111: out = data * r[3:0];
 			//Display 0, can separate digits of 4
-			default: Out = 8'b0000_0000;
+			default: out = 8'b0000_0000;
 		endcase
 	end	
+	assign Out[7:0] = out;
 endmodule
 
 module regalu(SW, LEDR, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
