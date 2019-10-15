@@ -35,7 +35,7 @@ module tflipf(input clk, input clr, input t, output reg q);
 endmodule
 
 module eightbitcounter(input clk, input enable, input reset, output [7:0] q);
-    [7:0] wire in_t, out_t;
+    wire [7:0] in_t;
 
     assign in_t[0] = enable;
     // assign out_t[0] = q[0];
