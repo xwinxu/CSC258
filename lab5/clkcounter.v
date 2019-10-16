@@ -41,7 +41,7 @@ module rateDivider(input clock, input reset_n, input [1:0] speeds, output enable
         endcase
     end
 
-    always @(posedge clk) begin
+    always @(posedge clock) begin
         if (reset_n == 0) begin
             q <= rate - 1; // count down from top
             enable <= enable;
@@ -68,7 +68,7 @@ module counter(input clk, input enb, input reset_n, input parload_n, input [3:0]
             q <= 0;
         else if (parload_n)
             q <= d;
-        else if (enable) begin
+        else if (enb) begin
             if (&q)
             // if (q == 4'b1111)
                 q <= 0;
@@ -78,7 +78,7 @@ module counter(input clk, input enb, input reset_n, input parload_n, input [3:0]
     end
 endmodule
 
-module displayCounter(input [9:0] SW, input CLOCK_50, output [6:0] HEX0);
+module clkcounter(input [9:0] SW, input CLOCK_50, output [6:0] HEX0);
     wire [3:0] count; // 4 bit output
     wire enable;
     // speeds is rate, 2 bits
