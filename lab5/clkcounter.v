@@ -87,6 +87,6 @@ module clkcounter(input [9:0] SW, input CLOCK_50, output [6:0] HEX0);
     // speeds is rate, 2 bits
     rateDivider rd(.clock(CLOCK_50), .reset_n(SW[2]), .speeds(SW[1:0]), .enable(enable));
     // d is the thing we'd parload in if parload == 1
-    counter c(.clk(CLOCK_50), .enb(enable), .reset_n(SW[3]), .parload_n(1b'0), .d(1b'0), .q(count));
+    counter c(.clk(CLOCK_50), .enb(enable), .reset_n(SW[3]), .parload_n(1'b0), .d(4'b0000), .q(count));
     sevenhex decode(.in(count), .hex(HEX0));
 endmodule
