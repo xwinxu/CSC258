@@ -28,6 +28,7 @@ endmodule
 module rateDivider(input clock, input reset_n, input [1:0] speeds, output enable);
     reg [25:0] rate;
     reg [25:0] q;
+    reg regenable;
 
     always @(*) begin
         case(speeds)
@@ -44,21 +45,23 @@ module rateDivider(input clock, input reset_n, input [1:0] speeds, output enable
     always @(posedge clock) begin
         if (reset_n == 0) begin
             q <= rate - 1; // count down from top
-            enable <= enable;
+            regenable <= regenable;
         end
         else if (q == 1'b0) begin // finishe the cycle, reset it
             q <= rate - 1;
-            enable <= 0;
+            regenable <= 0;
         end
         else if (q == 1'b1) begin // not finished cycle, reset it
             q <= q - 1; // decrement 
-            enable <= 1; // finishes on 50 M clock cycle
+            regenable <= 1; // finishes on 50 M clock cycle
         end       
         else begin
             q <= q - 1;
-            enable <= enable;
+            regenable <= regenable;
         end
     end
+
+    assign enable = regenable;
 endmodule
 
 module counter(input clk, input enb, input reset_n, input parload_n, input [3:0] d, output reg [3:0] q);
