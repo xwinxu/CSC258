@@ -26,7 +26,7 @@ module sevenhex(hex, in);
 endmodule
 
 module rateDivider(input clock, input reset_n, input [1:0] speeds, output enable);
-    reg [25:0] rate;
+    reg [25:0] rate; // need 26 bits to represent 50 million
     reg [25:0] q;
     reg regenable;
 
