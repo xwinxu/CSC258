@@ -21,7 +21,7 @@ force {clk[0]} 0 0, 1 10 -r 20
 # clearb (active low)
 force {clr[0]} 1
 
-run 5ns
+run 8ns
 
 # enable
 force {t[0]} 1
@@ -44,7 +44,7 @@ run 10ns
 
 # enable
 force {t[0]} 1
-run 10ns
+run 18ns
 
 # enable
 force {t[0]} 0
