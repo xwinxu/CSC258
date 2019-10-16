@@ -27,12 +27,13 @@ module tflipf(input clk, input clr, input t, output reg q);
         if (~clr)
             q <= 0;
         else
-        begin
-            if (~t)
-                q <= ~q;
-            else
-                q <= q;
-        end
+            q <= q ^ t;
+        // begin
+        //     if (~t)
+        //         q <= ~q;
+        //     else
+        //         q <= q;
+        // end
     end
 endmodule
 
