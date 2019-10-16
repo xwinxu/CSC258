@@ -78,7 +78,7 @@ module counter(input clk, input enb, input reset_n, input parload_n, input [3:0]
     end
 endmodule
 
-module displayCounter(input [9:0] SW, input CLOCK_50, output [6:0] HEX0);
+module clkcounter(input [9:0] SW, input CLOCK_50, output [6:0] HEX0);
     wire [3:0] count; // 4 bit output
     wire enable;
     // speeds is rate, 2 bits
