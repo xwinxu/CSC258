@@ -119,8 +119,10 @@ module control(
                 S_LOAD_X_WAIT   = 4'd7,
                 S_CYCLE_0       = 4'd8,
                 S_CYCLE_1       = 4'd9,
-                S_CYCLE_2       = 4'd10;
-    
+                S_CYCLE_2       = 4'd10,
+                S_CYCLE_3       = 4'd11,
+                S_CYCLE_4       = 4'd12;
+
     // Next state logic aka our state table
     always@(*)
     begin: state_table 
@@ -134,7 +136,10 @@ module control(
                 S_LOAD_X: next_state = go ? S_LOAD_X_WAIT : S_LOAD_X; // Loop in current state until value is input
                 S_LOAD_X_WAIT: next_state = go ? S_LOAD_X_WAIT : S_CYCLE_0; // Loop in current state until go signal goes low
                 S_CYCLE_0: next_state = S_CYCLE_1;
-                S_CYCLE_1: next_state = S_LOAD_A; // we will be done our two operations, start over after
+                S_CYCLE_1: next_state = S_CYCLE_2; 
+                S_CYCLE_2: next_state = S_CYCLE_3;
+                S_CYCLE_3: next_state = S_CYCLE_4;
+                S_CYCLE_4: next_state = S_LOAD_A; // we will be done our two operations, start over after
             default:     next_state = S_LOAD_A;
         endcase
     end // state_table
@@ -167,17 +172,35 @@ module control(
             S_LOAD_X: begin
                 ld_x = 1'b1;
                 end
-            S_CYCLE_0: begin // Do A <- A * A 
-                ld_alu_out = 1'b1; ld_a = 1'b1; // store result back into A
-                alu_select_a = 2'b00; // Select register A
-                alu_select_b = 2'b00; // Also select register A
-                alu_op = 1'b1; // Do multiply operation
+            S_CYCLE_0: begin
+                ld_alu_out = 1'b1; ld_b = 1'b1;
+                alu_select_a = 2'b01;
+                alu_select_b = 2'b11; 
+                alu_op = 1'b1; 
             end
             S_CYCLE_1: begin
-                ld_r = 1'b1; // store result in result register
-                alu_select_a = 2'b00; // Select register A
-                alu_select_b = 2'b10; // Select register C
-                alu_op = 1'b0; // Do Add operation
+                ld_alu_out = 1'b1; ld_b = 1'b1;
+                alu_select_a = 2'b01;
+                alu_select_b = 2'b00; 
+                alu_op = 1'b0; 
+            end
+            S_CYCLE_2: begin 
+                ld_alu_out = 1'b1; ld_a = 1'b1; 
+                alu_select_a = 2'b11; 
+                alu_select_b = 2'b11; 
+                alu_op = 1'b1; 
+            end
+            S_CYCLE_3: begin 
+                ld_alu_out = 1'b1; ld_a = 1'b1;
+                alu_select_a = 2'b00; 
+                alu_select_b = 2'b10; 
+                alu_op = 1'b1; 
+            end
+            S_CYCLE_4: begin 
+                ld_r = 1'b1; // output register
+                alu_select_a = 2'b00;
+                alu_select_b = 2'b01; 
+                alu_op = 1'b0; 
             end
         // default:    // don't need default since we already made sure all of our outputs were assigned a value at the start of the always block
         endcase
