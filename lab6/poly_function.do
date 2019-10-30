@@ -90,5 +90,5 @@ run 10ns
 # go signal
 force {KEY[1]} 1
 
-run 24ns
+run 50ns
 
