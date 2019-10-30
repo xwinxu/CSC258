@@ -1,6 +1,6 @@
 vlib work
-vlog -timescale 1ns/1ns sequence_detector.v
-vsim sequence_detector
+vlog -timescale 1ns/1ns fpga_top.v
+vsim fpga_top
 
 log {/*}
 add wave {/*}
