@@ -32,18 +32,33 @@ module sequence_detector(SW, KEY, LEDR);
     begin   // Start of state_table
         case (y_Q)
             A: begin
-                   if (!w) Y_D = A;
-                   else Y_D = B;
+                    if(!w) Y_D = A;
+                    else Y_D = B;
                end
             B: begin
-                   if(!w) Y_D = A;
-                   else Y_D = C;
+                    if(!w) Y_D = A;
+                    else Y_D = C;
                end
-            C: ...  // To be completed by you!
-            D: ...  // To be completed by you!
-            E: ...  // To be completed by you!
-            F: ...  // To be completed by you!
-            G: ...  // To be completed by you!
+            C: begin
+                    if(!w) Y_D = E;
+                    else Y_D = D;
+               end
+            D: begin
+                    if(!w) Y_D = E;
+                    else Y_D = F;
+               end
+            E: begin
+                    if(!w) Y_D = A;
+                    else Y_D = G;
+               end
+            F: begin
+                    if(!w) Y_D = E;
+                    else Y_D = F;
+               end
+            G: begin
+                    if(!w) Y_D = A;
+                    else Y_D = C;
+               end
             default: Y_D = A;
         endcase
     end     // End of state_table
@@ -59,5 +74,5 @@ module sequence_detector(SW, KEY, LEDR);
 
     // Output logic
     // Set z to 1 to turn on LED when in relevant states
-    assign z = ((y_Q == ???) || (y_Q == ???));  // To be completed by you!
+    assign z = ((y_Q == F)|| (y_Q == G)); 
 endmodule
