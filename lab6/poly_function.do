@@ -9,14 +9,7 @@ add wave {/*}
 # clk signal
 force {CLOCK_50} 0 0, 1 2 -r 4
 
-# reset
-force {KEY[0]} 0
-
-run 8ns
-
-# turn reset off
 force {KEY[0]} 1
-run 4ns
 
 # go
 force {KEY[1]} 0
