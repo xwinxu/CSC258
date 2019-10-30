@@ -15,7 +15,7 @@ force {KEY[0]} 0
 run 8ns
 
 # turn reset off
-force {KEY[0]} 0
+force {KEY[0]} 1
 run 4ns
 
 # go
