@@ -31,12 +31,12 @@ force {SW[5]} 0
 force {SW[6]} 0
 force {SW[7]} 0
 
-run 4ns
+run 10ns
 
 # go signal
 force {KEY[1]} 1
 
-run 4ns
+run 10ns
 
 
 # go
@@ -52,12 +52,12 @@ force {SW[5]} 0
 force {SW[6]} 0
 force {SW[7]} 0
 
-run 4ns
+run 10ns
 
 # go signal
 force {KEY[1]} 1
 
-run 4ns
+run 10ns
 
 # go
 force {KEY[1]} 0
@@ -72,12 +72,12 @@ force {SW[5]} 0
 force {SW[6]} 0
 force {SW[7]} 0
 
-run 4ns
+run 10ns
 
 # go signal
 force {KEY[1]} 1
 
-run 4ns
+run 10ns
 
 # go
 force {KEY[1]} 0
@@ -92,7 +92,7 @@ force {SW[5]} 0
 force {SW[6]} 0
 force {SW[7]} 0
 
-run 4ns
+run 10ns
 
 # go signal
 force {KEY[1]} 1
