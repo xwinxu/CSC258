@@ -22,14 +22,14 @@ run 4ns
 force {KEY[1]} 0
 
 # load in A
-force{SW[0]} 0
-force{SW[1]} 1
-force{SW[2]} 1
-force{SW[3]} 0
-force{SW[4]} 0
-force{SW[5]} 0
-force{SW[6]} 0
-force{SW[7]} 0
+force {SW[0]} 0
+force {SW[1]} 1
+force {SW[2]} 1
+force {SW[3]} 0
+force {SW[4]} 0
+force {SW[5]} 0
+force {SW[6]} 0
+force {SW[7]} 0
 
 run 4ns
 
@@ -43,14 +43,14 @@ run 4ns
 force {KEY[1]} 0
 
 # load in B
-force{SW[0]} 1
-force{SW[1]} 1
-force{SW[2]} 1
-force{SW[3]} 0
-force{SW[4]} 0
-force{SW[5]} 0
-force{SW[6]} 0
-force{SW[7]} 0
+force {SW[0]} 1
+force {SW[1]} 1
+force {SW[2]} 1
+force {SW[3]} 0
+force {SW[4]} 0
+force {SW[5]} 0
+force {SW[6]} 0
+force {SW[7]} 0
 
 run 4ns
 
@@ -63,14 +63,14 @@ run 4ns
 force {KEY[1]} 0
 
 # load in C
-force{SW[0]} 0
-force{SW[1]} 1
-force{SW[2]} 1
-force{SW[3]} 1
-force{SW[4]} 0
-force{SW[5]} 0
-force{SW[6]} 0
-force{SW[7]} 0
+force {SW[0]} 0
+force {SW[1]} 1
+force {SW[2]} 1
+force {SW[3]} 1
+force {SW[4]} 0
+force {SW[5]} 0
+force {SW[6]} 0
+force {SW[7]} 0
 
 run 4ns
 
@@ -83,14 +83,14 @@ run 4ns
 force {KEY[1]} 0
 
 # load in X
-force{SW[0]} 1
-force{SW[1]} 1
-force{SW[2]} 1
-force{SW[3]} 1
-force{SW[4]} 0
-force{SW[5]} 0
-force{SW[6]} 0
-force{SW[7]} 0
+force {SW[0]} 1
+force {SW[1]} 1
+force {SW[2]} 1
+force {SW[3]} 1
+force {SW[4]} 0
+force {SW[5]} 0
+force {SW[6]} 0
+force {SW[7]} 0
 
 run 4ns
 
