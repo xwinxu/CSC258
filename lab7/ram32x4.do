@@ -6,6 +6,7 @@ log {/*}
 add wave {/*}
 
 # clk signal
+# Note: specify ns b/c -L above makes it zoomed in and clock cycle off (should be ps)
 force {clock} 0 0ns, 1 2ns -r 4ns
 
 # address (hold a 5 bit value)
