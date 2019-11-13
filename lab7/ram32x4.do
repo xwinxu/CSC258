@@ -6,16 +6,16 @@ log {/*}
 add wave {/*}
 
 # clk signal
-force {clock} 0 0, 1 2 -r 8
+force {clock} 0 0ns, 1 2ns -r 4ns
 
-# address
+# address (hold a 5 bit value)
 force {address[0]} 1
 force {address[1]} 0
 force {address[2]} 0
 force {address[3]} 0
 force {address[4]} 0
 
-# data
+# data (to write to address)
 force {data[0]} 1
 force {data[1]} 0
 force {data[2]} 0
