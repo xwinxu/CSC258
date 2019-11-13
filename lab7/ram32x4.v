@@ -32,7 +32,6 @@
 //Intel and sold by Intel or its authorized distributors.  Please
 //refer to the applicable agreement for further details.
 
-
 // synopsys translate_off
 `timescale 1 ps / 1 ps
 // synopsys translate_on
@@ -170,3 +169,45 @@ endmodule
 // Retrieval info: GEN_FILE: TYPE_NORMAL ram32x4_inst.v FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL ram32x4_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf
+
+module sevenhex(in, hex);
+    input [3:0] in;
+    output [6:0] hex;
+
+    assign hex[0] = (~in[0] & in[1] & ~in[2] & ~in[3]) | (in[0] & ~in[1] & in[2] & in[3]) | (in[0] & in[1] & ~in[2] & in[3]) | (~in[0] & ~in[1] & ~in[2] & in[3]);
+
+    assign hex[1] = (in[0] & in[2] & in[3]) | (in[0] & in[1] & ~in[3]) | (~in[0] & in[1] & ~in[2] & in[3]) | (in[1] & in[2] & ~in[3]);
+
+    assign hex[2] = (~in[0] & ~in[1] & in[2] & ~in[3]) | (in[0] & in[1] & ~in[3]) | (in[0] & in[1] & in[2]);
+
+    assign hex[3] = (~in[1] & ~in[2] & in[3]) | (in[0] & ~in[1] & in[2] & ~in[3]) | (in[1] & in[2] & in[3]) | (~in[0] & in[1] & ~in[2] & ~in[3]);
+
+    assign hex[4] = (~in[1] & ~in[2] & in[3]) | (~in[0] & in[1] & ~in[2]) | (~in[0] & in[3]);
+
+    assign hex[5] = (~in[0] & ~in[1] & in[2]) | (~in[0] & ~in[1] & in[3]) | (in[0] & in[1] & ~in[2] & in[3]) | (~in[0] & in[2] & in[3]);
+
+    assign hex[6] = (~in[0] & in[1] & in[2] & in[3]) | (in[0] & in[1] & ~in[2] & ~in[3]) | (~in[0] & ~in[1] & ~in[2]);
+
+endmodule
+
+module toplevelram(input [9:0] SW, input [3:0] KEY, input [6:0] HEX5, input [6:0] HEX4, input [6:0] HEX2, input [6:0] HEX0);
+	wire [3:0] data, out;
+	wire [4:0] addr;
+	// connect data inputs to SW[3:0]
+	assign data = SW[3:0];
+	// connect address inputs to SW[8:4]
+	assign addr = SW[8:4];
+
+	ram32x4 ram(
+		addr,
+		KEY[0], // clock input
+		data,
+		SW[9], // wren
+		out);
+
+	sevenhex h1(addr[4], HEX5);
+	sevenhex h2(addr[3:0], HEX4);
+	sevenhex h1(data, HEX2);
+	sevenhex h1(out, HEX0);
+
+endmodule
