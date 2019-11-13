@@ -24,7 +24,7 @@ force {data[3]} 0
 # writeEn
 force {wren} 1
 
-run 2ns
+run 4ns
 
 
 
