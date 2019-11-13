@@ -26,5 +26,30 @@ force {wren} 1
 
 run 4ns
 
+# address (read from another place, expect 0 b/c unset)
+force {address[0]} 1
+force {address[1]} 1 
+force {address[2]} 0
+force {address[3]} 0
+force {address[4]} 0
 
+# leave the write the same as before
+
+# writeEn
+force {wren} 0
+
+run 4ns
+
+
+# address read from the original place (expect 1)
+force {address[0]} 1
+force {address[1]} 0 
+force {address[2]} 0
+force {address[3]} 0
+force {address[4]} 0
+
+# writeEn
+force {wren} 0
+
+run 4ns
 
