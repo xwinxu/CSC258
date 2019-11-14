@@ -1,4 +1,33 @@
 // Part 2 skeleton
+module datapath(
+	input [6:0] data_in,
+	input clk,
+	input resetn,
+	input loadx,
+	input [2:0] color,
+	input [3:0] ctrl, // the 4-bit X | Y split input
+	output reg [7:0] X,
+	output reg [6:0] Y,
+	output [2:0] color_out);
+
+	// at posedge
+	always @(posedge clk) begin
+		// active low
+		if (!resetn) begin
+			X <= 8'd0;
+			Y <= 7'd0;
+		end
+		else begin
+			if (loadx)
+				// concatenate
+				X <= { 1'b0, data_in } + { 6'b0000_00, ctrl[3:2] };
+			else
+				Y <= data_in + { 5'b0000_0, ctrl[1:0] }; 
+		end
+	end
+
+	assign color_out = color;
+endmodule
 
 module part2
 	(
