@@ -33,8 +33,8 @@ module control(
 	input go,
 	input resetn,
 	input clk,
-	output [3:0] ctrl,
-	output plot);
+	output reg [3:0] ctrl,
+	output reg plot);
 
 	reg [4:0] current_state;
 	reg [4:0] next_state;
@@ -161,7 +161,6 @@ module control(
 		else
 			current_state <= next_state;
 	end
-
 endmodule
 
 module part2
