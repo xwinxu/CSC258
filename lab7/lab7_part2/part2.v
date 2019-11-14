@@ -29,6 +29,141 @@ module datapath(
 	assign color_out = color;
 endmodule
 
+module control(
+	input go,
+	input resetn,
+	input clk,
+	output [3:0] ctrl,
+	output plot);
+
+	reg [4:0] current_state;
+	reg [4:0] next_state;
+
+	localparam S_WAIT = 5'd0, // 5 bits
+				S_W_WAIT = 5'd1,
+				S_CYCLE_0 = 5'd2,
+				S_CYCLE_1 = 5'd3,
+				S_CYCLE_2 = 5'd4,
+				S_CYCLE_3 = 5'd5,
+				S_CYCLE_4 = 5'd6,
+				S_CYCLE_5 = 5'd7,
+				S_CYCLE_6 = 5'd8,
+				S_CYCLE_7 = 5'd9,
+				S_CYCLE_8 = 5'd10,
+				S_CYCLE_9 = 5'd11,
+				S_CYCLE_10 = 5'd12,
+				S_CYCLE_11 = 5'd13,
+				S_CYCLE_12 = 5'd14,
+				S_CYCLE_13 = 5'd15,
+				S_CYCLE_14 = 5'd16,
+				S_CYCLE_15 = 5'd17;
+
+	// state table
+	always @(*) begin
+		case (current_state)
+			S_WAIT: next_state = go ? S_W_WAIT : S_WAIT;
+			S_W_WAIT: next_state = go ? S_W_WAIT : S_CYCLE_0;
+			S_CYCLE_0: next_state = S_CYCLE_1;
+			S_CYCLE_1: next_state = S_CYCLE_2;
+			S_CYCLE_2: next_state = S_CYCLE_3;
+			S_CYCLE_3: next_state = S_CYCLE_4;
+			S_CYCLE_4: next_state = S_CYCLE_5;
+			S_CYCLE_5: next_state = S_CYCLE_6;
+			S_CYCLE_6: next_state = S_CYCLE_7;
+			S_CYCLE_7: next_state = S_CYCLE_8;
+			S_CYCLE_8: next_state = S_CYCLE_9;
+			S_CYCLE_9: next_state = S_CYCLE_10;
+			S_CYCLE_10: next_state = S_CYCLE_11;
+			S_CYCLE_11: next_state = S_CYCLE_12;
+			S_CYCLE_12: next_state = S_CYCLE_13;
+			S_CYCLE_13: next_state = S_CYCLE_14;
+			S_CYCLE_14: next_state = S_CYCLE_15;
+			S_CYCLE_15: next_state = S_WAIT;
+			default: next_state = S_WAIT;
+		endcase
+	end
+
+	// output logic
+	always @(*) begin
+		ctrl = 0;
+		plot = 0;
+		case (current_state)
+			S_CYCLE_0: begin
+				ctrl = 4'b0000;
+				plot = 1'b1;
+			end
+			S_CYCLE_1: begin
+				ctrl = 4'b0001;
+				plot = 1'b1;
+			end
+			S_CYCLE_2: begin
+				ctrl = 4'b0010;
+				plot = 1'b1;
+			end
+			S_CYCLE_3: begin
+				ctrl = 4'b0011;
+				plot = 1'b1;
+			end
+			S_CYCLE_4: begin
+				ctrl = 4'b0100;
+				plot = 1'b1;
+			end
+			S_CYCLE_5: begin
+				ctrl = 4'b0101;
+				plot = 1'b1;
+			end
+			S_CYCLE_6: begin
+				ctrl = 4'b0110;
+				plot = 1'b1;
+			end
+			S_CYCLE_7: begin
+				ctrl = 4'b0111;
+				plot = 1'b1;
+			end
+			S_CYCLE_8: begin
+				ctrl = 4'b1000;
+				plot = 1'b1;
+			end
+			S_CYCLE_9: begin
+				ctrl = 4'b1001;
+				plot = 1'b1;
+			end
+			S_CYCLE_10: begin
+				ctrl = 4'b1010;
+				plot = 1'b1;
+			end
+			S_CYCLE_11: begin
+				ctrl = 4'b1011;
+				plot = 1'b1;
+			end
+			S_CYCLE_12: begin
+				ctrl = 4'b1100;
+				plot = 1'b1;
+			end
+			S_CYCLE_13: begin
+				ctrl = 4'b1101;
+				plot = 1'b1;
+			end
+			S_CYCLE_14: begin
+				ctrl = 4'b1110;
+				plot = 1'b1;
+			end
+			S_CYCLE_15: begin
+				ctrl = 4'b1111;
+				plot = 1'b1;
+			end
+		endcase
+	end
+
+	always @(posedge clk) begin
+		if (!resetn)
+			current_state <= S_WAIT;
+		else
+			current_state <= next_state;
+	end
+
+endmodule
+
 module part2
 	(
 		CLOCK_50,						//	On Board 50 MHz
@@ -97,10 +232,28 @@ module part2
 	// Put your code here. Your code should produce signals x,y,colour and writeEn/plot
 	// for the VGA controller, in addition to any other functionality your design may require.
     
+	wire [3:0] control_signal;
+
     // Instansiate datapath
-	// datapath d0(...);
+	datapath d0(
+		.clk(CLOCK_50),
+		.resetn(resetn),
+		.loadx(~KEY[3]),
+		.data_in(SW[6:0]),
+		.color(SW[9:7]),
+		.ctrl(control_signal),
+		.X(x),
+		.Y(y),
+		.color_out(colour)
+	);
 
     // Instansiate FSM control
-    // control c0(...);
+    control c0(
+		.clk(CLOCK_50),
+		.resetn(resetn),
+		.go(~KEY[1]),
+		.ctrl(control_signal),
+		.plot(writeEn)
+	);
     
 endmodule
