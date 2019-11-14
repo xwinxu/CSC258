@@ -11,7 +11,7 @@ module datapath(
 	output [2:0] color_out);
 
 	// at posedge
-	always @(posedge clk) begin
+	always @ (posedge clk) begin
 		// active low
 		if (!resetn) begin
 			X <= 8'd0;
@@ -59,7 +59,7 @@ module control(
 				S_CYCLE_15 = 5'd17;
 
 	// state table
-	always @(*) begin
+	always @ (*) begin
 		case (current_state)
 			S_WAIT: next_state = go ? S_W_WAIT : S_WAIT;
 			S_W_WAIT: next_state = go ? S_W_WAIT : S_CYCLE_0;
@@ -84,7 +84,7 @@ module control(
 	end
 
 	// output logic
-	always @(*) begin
+	always @ (*) begin
 		ctrl = 0;
 		plot = 0;
 		case (current_state)
