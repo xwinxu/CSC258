@@ -32,6 +32,7 @@ module m3
     assign resetn = KEY[0];
 
     wire [2:0] colour;
+    // outputs of the VGA
     wire [7:0] x;
     wire [6:0] y;
     wire writeEn;
@@ -42,7 +43,7 @@ module m3
 //        .colour(colour),
 //        .x(x),
 //        .y(y),
-//        .plot(writeEn),
+//        .plot(writeEn),           // draw x and y with color if set
 //        .VGA_R(VGA_R),
 //        .VGA_G(VGA_G),
 //        .VGA_B(VGA_B),
@@ -83,7 +84,8 @@ module m3
     wire [2:0] alu_select_a, alu_select_b;
     wire [2:0] alu_op;
 
-
+    // takes in braille encoding and a location to start drawing
+    // decode braille, and start drawing based on location and color
     vga_datapath vd0(
         .clk(CLOCK_50),
         .resetn(resetn),
@@ -105,6 +107,7 @@ module m3
         .dig(encoding)
     );
 
+    // the calculator
     datapath d0(
         .clk(clk),
         .resetn(resetn),
@@ -145,7 +148,7 @@ module m3
         .data_result(data_result)
     );
 
-    
+    // do calculation and draw the __ + __ = __
     vga_control vc(
         .clk(CLOCK_50),
         .resetn(resetn),
@@ -193,7 +196,7 @@ module m3
         .ld_dig(ld_dig)
     );
 
-    
+    // convert 8 bit data encoding into braille
     mux_digs md(
         .data_result(data_result),
         .encoding(encoding),
@@ -201,7 +204,7 @@ module m3
         .decoder_in(decoder_in)
     );
 
-
+    // takes in 4 bit number, outputs 6 bit braille thing
     braille_decoder b0(
         .encoding(decoder_in),
         .decoding(braille)
@@ -315,6 +318,7 @@ module vga_control(
         endcase
     end
 
+    // each braille box is 16 pixels wide in total, each square is 8 pixels wide
     localparam  A_X     = 8'd23,
                 A_Y     = 7'd23,
                 OP_X    = 8'd23 + 8'd16,
@@ -560,7 +564,9 @@ module vga_datapath(
     input [6:0] y_in,
     input [5:0] braille,
     
+    // done signal for being done
     output reg done,
+    // connects to the vga (see line 40)
     output [7:0] x_out,
     output [6:0] y_out,
     output reg [2:0] clr_out
@@ -571,6 +577,7 @@ module vga_datapath(
                 ON_CLR      = 3'd1;  
 
     // the x and y for the top left corner of the braille encoding
+    // load x and y in once, extra y_reg
     reg [7:0] x_r;
     reg [6:0] y_r;
     
@@ -579,6 +586,7 @@ module vga_datapath(
     reg [6:0] y_reg;
 
     // the x and y offsets
+    // for each box, fill in the pixels
     reg [7:0] x_add;
     reg [6:0] y_add;
 
